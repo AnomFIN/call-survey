@@ -1,0 +1,14 @@
+{
+    "name": "anomfin/call-survey",
+    "description": "ULTRALIGHT PHP-based customer satisfaction survey system with Twilio integration",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "twilio/sdk": "^6.44"
+    },
+    "autoload": {
+        "psr-4": {
+            "CallSurvey\\": "src/"
+        }
+    }
+}
