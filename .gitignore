@@ -1,0 +1,12 @@
+/.cache/
+/vendor/
+/node_modules/
+/.DS_Store
+/.idea/
+/.vscode/
+/anomfin-ultralight.zip
+/public/fonts/*
+!/public/fonts/.gitkeep
+/public/img/brand/*.png
+/public/img/brand/*.ico
+!/public/img/brand/.gitkeep

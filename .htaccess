@@ -1,0 +1,23 @@
+# Security hardening for AnomFIN Call-Survey ULTRALIGHT
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Block access to install/ unless explicitly enabled
+  RewriteCond %{ENV:ANOMFIN_INSTALL_ACTIVE} !^1$
+  RewriteRule ^install/ - [F,L]
+  # Never expose .env files
+  RewriteRule ^\.env(?:\..*)?$ - [F,L]
+</IfModule>
+
+<IfModule mod_authz_core.c>
+  <FilesMatch "^\.env(\..*)?$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+  <FilesMatch "^\.env(\..*)?$">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+</IfModule>
+

@@ -1,0 +1,107 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  APP_ZIP: anomfin-ultralight.zip
+  WEBSITE_REPO: https://github.com/AnomFIN/anomfin-website.git
+  CPANEL_DEPLOY_PATH: /home/anomfinf/public_html/app
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve anomfin-website HEAD
+        id: website_rev
+        run: |
+          set -euo pipefail
+          SHA=$(git ls-remote "$WEBSITE_REPO" refs/heads/main | cut -f1)
+          echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Cache design system sparse checkout
+        uses: actions/cache@v4
+        with:
+          path: .cache/anomfin-website
+          key: anomfin-website-${{ steps.website_rev.outputs.sha }}
+
+      - name: Set up PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mysqli, curl, mbstring
+          coverage: none
+
+      - name: Sync design system assets
+        run: tools/sync-theme.sh
+        env:
+          ANOMFIN_WEBSITE_REPO: ${{ env.WEBSITE_REPO }}
+          ANOMFIN_WEBSITE_BRANCH: main
+
+      - name: PHP lint
+        run: |
+          set -euo pipefail
+          files=$(git ls-files '*.php')
+          if [[ -z "$files" ]]; then
+            echo "No PHP files to lint"
+            exit 0
+          fi
+          echo "$files" | xargs -n1 php -l
+
+      - name: Local web health check
+        run: |
+          set -euo pipefail
+          php -S 127.0.0.1:8080 -t public >/tmp/php-server.log 2>&1 &
+          server_pid=$!
+          sleep 3
+          trap 'kill ${server_pid}' EXIT
+          curl -sI http://127.0.0.1:8080/ | grep 200
+
+      - name: Package release zip
+        run: |
+          set -euo pipefail
+          zip -r "$APP_ZIP" public api install sql worker .env.example README.md .htaccess
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: anomfin-ultralight
+          path: ${{ env.APP_ZIP }}
+          retention-days: 30
+
+      - name: Upload package to cPanel
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USER }}
+          password: ${{ secrets.CPANEL_PASS }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          port: ${{ secrets.CPANEL_SSH_PORT || '22' }}
+          source: ${{ env.APP_ZIP }}
+          target: /home/${{ secrets.CPANEL_USER }}/deployments
+          overwrite: true
+
+      - name: Deploy package on cPanel
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USER }}
+          password: ${{ secrets.CPANEL_PASS }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          port: ${{ secrets.CPANEL_SSH_PORT || '22' }}
+          envs: CPANEL_DEPLOY_PATH
+          script: |
+            set -e
+            mkdir -p /home/${{ secrets.CPANEL_USER }}/deployments
+            mkdir -p $CPANEL_DEPLOY_PATH
+            unzip -o /home/${{ secrets.CPANEL_USER }}/deployments/anomfin-ultralight.zip -d $CPANEL_DEPLOY_PATH
+
+      - name: Post-deploy health check
+        run: |
+          curl -sI https://app.anomfin.fi/public/index.html | grep 200
