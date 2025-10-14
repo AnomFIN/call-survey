@@ -1,0 +1,195 @@
+/*
+ * AnomFIN Call-Survey ULTRALIGHT — application layer styles
+ * Imports theme assets synced from anomfin-website and exposes
+ * application-scoped CSS custom properties and utility classes.
+ */
+@import url("./theme/theme-index.css");
+
+:root {
+  --app-font-sans: var(--theme-font-family, "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  --app-font-display: var(--theme-font-display, "Sora", var(--app-font-sans));
+  --app-color-primary: var(--theme-color-primary, #0f766e);
+  --app-color-primary-accent: var(--theme-color-primary-accent, #14b8a6);
+  --app-color-primary-contrast: var(--theme-color-on-primary, #ffffff);
+  --app-color-surface: var(--theme-color-surface, #ffffff);
+  --app-color-surface-muted: var(--theme-color-surface-muted, #f1f5f9);
+  --app-color-border: var(--theme-color-border, rgba(15, 118, 110, 0.2));
+  --app-color-text: var(--theme-color-text, #0f172a);
+  --app-color-text-muted: var(--theme-color-text-muted, rgba(15, 23, 42, 0.72));
+  --app-shadow-elevated: var(--theme-shadow-elevated, 0 18px 40px -20px rgba(15, 118, 110, 0.45));
+  --app-radius-lg: var(--theme-radius-xl, 32px);
+  --app-radius-md: var(--theme-radius-lg, 20px);
+  --app-radius-sm: var(--theme-radius-md, 12px);
+  --app-spacing-xl: clamp(3rem, 5vw, 6rem);
+  --app-spacing-lg: clamp(2rem, 4vw, 4rem);
+  --app-spacing-md: 1.5rem;
+  --app-spacing-sm: 1rem;
+  --app-spacing-xs: 0.625rem;
+  color-scheme: light;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: var(--app-font-sans);
+  background: linear-gradient(180deg, rgba(20, 184, 166, 0.06), transparent 160px);
+  color: var(--app-color-text);
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-spacing-sm);
+  padding: var(--app-spacing-sm) var(--app-spacing-lg);
+  backdrop-filter: blur(18px);
+  background: color-mix(in srgb, var(--app-color-surface) 86%, transparent);
+  border-bottom: 1px solid var(--app-color-border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--app-spacing-xs);
+  text-decoration: none;
+  color: inherit;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  font-size: 1.125rem;
+}
+
+.app-header__brand img {
+  height: 42px;
+  width: auto;
+}
+
+.app-main {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: center;
+  padding: var(--app-spacing-xl) var(--app-spacing-lg) var(--app-spacing-lg);
+  gap: var(--app-spacing-lg);
+}
+
+.app-hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-spacing-md);
+  max-width: 620px;
+}
+
+.app-hero__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--app-color-primary);
+}
+
+.app-hero__title {
+  font-family: var(--app-font-display);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.app-hero__body {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--app-color-text-muted);
+}
+
+.app-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-spacing-sm);
+}
+
+.app-cta {
+  --btn-bg: var(--app-color-primary);
+  --btn-color: var(--app-color-primary-contrast);
+  --btn-shadow: var(--app-shadow-elevated);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.8rem;
+  border-radius: var(--app-radius-md);
+  font-weight: 600;
+  font-size: 1rem;
+  border: 0;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  text-decoration: none;
+  box-shadow: var(--btn-shadow);
+  background: var(--btn-bg);
+  color: var(--btn-color);
+}
+
+.app-cta:focus,
+.app-cta:hover {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 24px 48px -24px var(--app-color-primary);
+}
+
+.app-cta--outline {
+  --btn-bg: color-mix(in srgb, var(--app-color-primary) 18%, white);
+  --btn-color: var(--app-color-primary);
+  --btn-shadow: inset 0 0 0 1px var(--app-color-border);
+  box-shadow: var(--btn-shadow);
+}
+
+.app-cta--ghost {
+  --btn-bg: color-mix(in srgb, var(--app-color-primary) 6%, white);
+  --btn-color: var(--app-color-primary);
+  --btn-shadow: inset 0 0 0 1px color-mix(in srgb, var(--app-color-primary) 26%, transparent);
+  box-shadow: var(--btn-shadow);
+}
+
+.app-showcase {
+  border-radius: var(--app-radius-lg);
+  background: var(--app-color-surface);
+  border: 1px solid var(--app-color-border);
+  padding: var(--app-spacing-lg);
+  display: grid;
+  gap: var(--app-spacing-md);
+  box-shadow: var(--app-shadow-elevated);
+}
+
+.app-showcase__item {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.app-showcase__label {
+  font-size: 0.875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--app-color-text-muted);
+}
+
+.app-showcase__value {
+  font-family: var(--app-font-display);
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+@media (max-width: 720px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

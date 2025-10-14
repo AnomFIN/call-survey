@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AnomFIN Call-Survey ULTRALIGHT</title>
+    <meta
+      name="description"
+      content="AnomFIN Call-Survey ULTRALIGHT yhdistää Twilio Voice, SMS ja WhatsApp -viestinnän yhdeksi hyperkevyeksi, PIN-suojatuksi asiakaspalautekanavaksi."
+    />
+    <link rel="icon" type="image/svg+xml" href="./img/brand/logo-mark.svg" />
+    <link rel="apple-touch-icon" href="./img/brand/apple-touch-icon.svg" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="app-header__brand" href="https://anomfin.fi" target="_blank" rel="noreferrer">
+        <img src="./img/brand/logo-mark.svg" alt="AnomFIN" />
+        <span>AnomFIN Call-Survey ULTRALIGHT</span>
+      </a>
+      <nav class="app-cta-group" aria-label="Pikakäynnistimet">
+        <button class="app-cta" data-action="call">Aloita soittaminen</button>
+        <button class="app-cta app-cta--outline" data-action="sms">Lähetä SMS</button>
+        <button class="app-cta app-cta--ghost" data-action="whatsapp">Lähetä WhatsApp</button>
+      </nav>
+    </header>
+
+    <main class="app-main">
+      <section class="app-hero">
+        <p class="app-hero__eyebrow">AnomFIN Automation Stack</p>
+        <h1 class="app-hero__title">Reaaliaikainen puhelukysely, joka lukee jokaisen sävyn</h1>
+        <p class="app-hero__body">
+          ULTRALIGHT-julkaisu yhdistää Twilio Voice IVR:n, SMS- ja WhatsApp-viestit sekä PIN-suojatut API:t yhdeksi hallituksi virtaukseksi.
+          Design synkronoidaan automaattisesti anomfin-website -kokemuksesta, jotta jokainen kosketuspiste näyttää ja tuntuu 100 % AnomFINilta.
+        </p>
+        <div class="app-cta-group">
+          <button class="app-cta" data-action="call">Aloita soittaminen</button>
+          <button class="app-cta app-cta--outline" data-action="sms">Lähetä SMS</button>
+          <button class="app-cta app-cta--ghost" data-action="whatsapp">Lähetä WhatsApp</button>
+        </div>
+      </section>
+
+      <aside class="app-showcase" aria-label="Tilannekuva">
+        <div class="app-showcase__item">
+          <span class="app-showcase__label">Live-soittajat</span>
+          <span class="app-showcase__value" id="app-stat-live">28</span>
+        </div>
+        <div class="app-showcase__item">
+          <span class="app-showcase__label">SMS + WhatsApp</span>
+          <span class="app-showcase__value" id="app-stat-messages">1 482</span>
+        </div>
+        <div class="app-showcase__item">
+          <span class="app-showcase__label">IVR NPS</span>
+          <span class="app-showcase__value" id="app-stat-nps">+72</span>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./js/app.js" type="module"></script>
+  </body>
+</html>

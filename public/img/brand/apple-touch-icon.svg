@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-labelledby="title">
+  <title>AnomFIN Touch Icon</title>
+  <defs>
+    <linearGradient id="touchGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14b8a6" />
+      <stop offset="100%" stop-color="#0f766e" />
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" rx="42" fill="url(#touchGradient)" />
+  <path d="M60 123c0-27 18-51 30-51s30 24 30 51" fill="none" stroke="#fff" stroke-width="15" stroke-linecap="round" />
+  <circle cx="90" cy="66" r="18" fill="#fff" />
+</svg>
