@@ -3,6 +3,12 @@
  * Twilio Webhook Handler for Voice Calls
  */
 
+session_start();
+
+require_once __DIR__ . '/../vendor/autoload.php';
+$config = require __DIR__ . '/../config.php';
+$db = \CallSurvey\Database::getInstance($config['database']);
+
 header('Content-Type: text/xml');
 
 // Get survey ID from request
