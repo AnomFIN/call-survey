@@ -2,6 +2,12 @@
 
 AnomFIN Call-Survey ULTRALIGHT — äärimmäisen kevyt ja helppokäyttöinen PHP-pohjainen asiakastyytyväisyyskyselyjärjestelmä, jossa on suora Twilio-integraatio (puhelut, SMS, WhatsApp).
 
+## 🚀 Quick Start
+
+**New to the project?** Start with [QUICKSTART.md](QUICKSTART.md) for a 5-minute setup guide.
+
+**Ready for production?** See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment instructions.
+
 ## Ominaisuudet
 
 - 📞 **Puhelukyselyt** - Automaattiset kyselypuhelut Twilion kautta
