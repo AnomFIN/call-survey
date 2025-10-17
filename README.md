@@ -2,11 +2,57 @@
 
 AnomFIN Call-Survey ULTRALIGHT — äärimmäisen kevyt ja helppokäyttöinen PHP-pohjainen asiakastyytyväisyyskyselyjärjestelmä, jossa on suora Twilio-integraatio (puhelut, SMS, WhatsApp).
 
-## 🚀 Quick Start
+## 🚀 Super Easy Setup
 
-**New to the project?** Start with [QUICKSTART.md](QUICKSTART.md) for a 5-minute setup guide.
+**👉 BRAND NEW? Start here:** [**GETTING-STARTED.md**](GETTING-STARTED.md) - **Complete checklist to track your progress!**
+
+**👉 WANT STEP-BY-STEP GUIDE?** [**SETUP.md**](SETUP.md) - **Detailed setup guide with troubleshooting!**
+
+**Quick reference?** See [QUICKSTART.md](QUICKSTART.md) for a 5-minute setup summary.
 
 **Ready for production?** See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment instructions.
+
+### Three Ways to Get Started
+
+#### 1️⃣ Automatic Install (Easiest - Recommended!)
+
+```bash
+git clone https://github.com/AnomFIN/call-survey.git
+cd call-survey
+./install.sh  # Interactive installer - just follow the prompts!
+```
+
+Then edit `config.php` with your Twilio credentials and visit http://localhost:8000
+
+#### 2️⃣ Docker (No PHP/MySQL installation needed!)
+
+```bash
+git clone https://github.com/AnomFIN/call-survey.git
+cd call-survey
+cp config.example.php config.php
+# Edit config.php with your Twilio credentials
+docker-compose up -d
+# Visit http://localhost:8000
+```
+
+#### 3️⃣ Manual Install (More control)
+
+```bash
+git clone https://github.com/AnomFIN/call-survey.git
+cd call-survey
+composer install
+cp config.example.php config.php
+# Edit config.php
+mysql -u root -p < database.sql
+php -S localhost:8000 -t public
+```
+
+### 📖 Setup Documentation
+
+- **[GETTING-STARTED.md](GETTING-STARTED.md)** - Complete checklist for tracking your setup
+- **[SETUP.md](SETUP.md)** - Step-by-step guide for beginners with troubleshooting
+- **[QUICKSTART.md](QUICKSTART.md)** - Quick reference (5 minutes)
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Production deployment guide
 
 ## Ominaisuudet
 
