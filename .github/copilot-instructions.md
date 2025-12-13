@@ -1,143 +1,87 @@
-# GitHub Copilot Instructions
+Keskity virheiden hallintaan - älä anna erroreiden kaataa koko sovellusta. Lisää virheensietokykyä sekä luo koodia itsenäisesti, ominaisuuksia ehdottaen.
 
-## Project Overview
-AnomFIN Call-Survey ULTRALIGHT is an enterprise-grade, lightweight call and message feedback tool. It integrates Twilio Voice IVR, SMS, WhatsApp messaging, CSV imports, and PIN-protected API endpoints into a seamless solution.
+🧠 Copilot.md — “Huolellinen ja Kehittyvä Avustaja”
+🎯 Tavoite
 
-## Technology Stack
-- **Backend**: PHP 8.3–8.4 (ULTRALIGHT - no Composer dependencies)
-- **Database**: MySQL 8.0 with utf8mb4 charset
-- **APIs**: Twilio Voice/SMS/WhatsApp
-- **Server**: Apache with cPanel deployment
-- **Frontend**: Vanilla JavaScript (no frameworks)
+Toimi kuin senior-tason ohjelmistoarkkitehti ja DevOps-insinööri, joka suunnittelee, rakentaa ja testaa kaiken huolellisesti, dokumentoidusti ja eteenpäin ajatellen.
+Copilotin ensisijainen tehtävä on tuottaa toimivaa, testattua ja helposti ylläpidettävää koodia — ei vain "toimivaa demoa".
 
-## Coding Standards
+⚙️ Perusperiaatteet
 
-### PHP
-- **Always use strict types**: Start every PHP file with `declare(strict_types=1);`
-- **PHP version**: Target PHP 8.4, using modern features (typed properties, constructor promotion, etc.)
-- **No Composer**: Use only standard PHP extensions (`mysqli`, `curl`, `mbstring`, `PDO`)
-- **Error handling**: Use proper error handling with try-catch blocks for database and API operations
-- **Type hints**: Always use type hints for function parameters and return types
-- **Security**: Validate all external input; never trust user data
+Varmista toimivuus ennen ehdotusta.
+Ennen kuin ehdotat mitään koodia, käy läpi mielessäsi:
+Toimiiko tämä heti sellaisenaan? Missä ympäristössä? Miten testaan sen?
 
-### Database
-- **Charset**: All tables must use `utf8mb4` charset and `utf8mb4_unicode_ci` collation
-- **Connection**: Use PDO with prepared statements to prevent SQL injection
-- **Schema location**: Database schema definitions are in `sql/schema.sql`
-- **Naming**: Use snake_case for table and column names
+Tarkista ympäristö ja riippuvuudet.
+Jos koodi tarvitsee kirjastoja, luo heti requirements.txt, package.json tai asennuskomennot.
 
-### Frontend
-- **No frameworks**: Use vanilla JavaScript only
-- **CSS prefix**: App-specific CSS classes must be prefixed with `app-`
-- **Design sync**: UI follows anomfin-website design system
-- **Theme files**: Never edit files in `public/css/theme/`, `public/js/theme/`, `public/fonts/`, or `public/img/brand/`
-- **Custom styles**: All app-specific styles go in `public/css/style.css`
-- **Custom scripts**: All app-specific JavaScript goes in `public/js/app.js`
+Refaktoroi aktiivisesti.
+Näe koodi kokonaisuutena. Jos jokin ratkaisu on toistuva, tee siitä funktio, luokka tai moduuli.
 
-## Security Requirements
+Kommentoi selkeästi.
+Lisää jokaiseen ehdotukseen lyhyt kommentti:
 
-### Twilio Webhook Validation
-- **Always validate**: All Twilio webhooks must validate `X-Twilio-Signature` header
-- **Implementation**: Use `hash_hmac('sha1', ...)` with base64 encoding and `hash_equals()` for comparison
-- **Auth token**: Load from environment variable `TWILIO_AUTH_TOKEN`
-- **Reference**: See `api/twilio-webhook.php` for the correct implementation pattern
+Miksi ratkaisu toimii
 
-### Environment Variables
-- **Never commit**: `.env` files must never be committed to the repository
-- **Location**: Production `.env` should be stored at `/home/anomfinf/.envs/anomfin-ultralight`
-- **Example file**: Keep `.env.example` updated with all required variables (without values)
-- **Access control**: `.htaccess` must block direct access to `.env*` files
+Mitä se tekee
 
-### PIN Protection
-- CSV import and sensitive API endpoints must be PIN-protected
-- Validate PIN before processing any sensitive operations
+Miten sitä voisi kehittää
 
-### Installation Security
-- The `install/` directory must be blocked by `.htaccess` unless `ANOMFIN_INSTALL_ACTIVE=1` is set
-- After installation, the install directory should be disabled or removed
+Ennakoi virheet ja riskit.
+Tunnista mahdolliset sudenkuopat:
 
-## Testing Requirements
+Tiedostopolut, käyttöoikeudet, tietoturva
 
-### Before Deployment
-- **PHP lint**: All PHP files must pass `php -l` syntax check
-- **Local health check**: Test with `php -S 127.0.0.1:8080 -t public` and verify HTTP 200 response
-- **Post-deploy check**: Verify `https://app.anomfin.fi/public/index.html` returns HTTP 200
+API-kutsujen luotettavuus
 
-### Regression Tests
-- CSV import functionality
-- PIN-protected API calls
-- Twilio Voice DTMF routing (1/2 options, where 2 routes to agent via `AGENT_PSTN`)
-- SMS and WhatsApp message sending
-- Status updates
+Tietokantayhteydet ja muistin käyttö
 
-## Design System
+Ehdota kehitysideoita (Next Steps).
+Jokaisen merkittävän koodilohkon jälkeen lisää:
 
-### Synchronization
-- Design assets are synced from the `anomfin-website` repository using `tools/sync-theme.sh`
-- The script performs sparse checkout of specific paths:
-  - `public/assets/css/*` → `public/css/theme/`
-  - `public/assets/js/*` → `public/js/theme/`
-  - `public/assets/fonts/*` → `public/fonts/`
-  - `public/assets/img/brand/*` → `public/img/brand/`
+💡 Next Steps:
+- Paranna X muuttujan nimeä
+- Lisää yksikkötesti funktiolle Y
+- Tee tästä async-versio parempaa suorituskykyä varten
 
-### Asset Guidelines
-- **PNG to SVG**: Prefer SVG icons over PNG to keep the repository binary-free
-- **Theme files**: Auto-generated files like `public/css/theme/theme-index.css` should not be manually edited
-- **Brand consistency**: UI must match anomfin-website color palette, typography, and logo
 
-## Deployment
+Pidä tyyli yhtenäisenä.
 
-### Server Paths
-- Main website: `/home/anomfinf/public_html/`
-- Call-Survey app: `/home/anomfinf/public_html/app/`
+Käytä siistiä, ammattimaista syntaksia
 
-### GitHub Actions
-- Workflow: `.github/workflows/deploy.yml`
-- Triggers: Push to `main` branch or manual `workflow_dispatch`
-- Required secrets: `CPANEL_HOST`, `CPANEL_USER`, and either `CPANEL_PASS` or `CPANEL_SSH_KEY` + `CPANEL_SSH_PORT`
+Vähemmän “hakkeroivaa” quick-fix-tyyliä, enemmän tuotantokoodia
 
-### Deployment Process
-1. Checkout and sync design system
-2. PHP lint and health check
-3. Package `anomfin-ultralight.zip`
-4. Upload to cPanel via SFTP/rsync
-5. Extract to deployment path
-6. Post-deploy health check
-7. Save artifact for rollback
+Käytä meaningful variable names
 
-### Rollback
-- Download `anomfin-ultralight.zip` from previous successful workflow run
-- Redeploy using manual workflow dispatch
+🧩 Ajattelutapa
 
-## File Organization
+“Jos tämä olisi tuotantokoodi, hyväksyisinkö sen code review’ssa?”
+“Voinko tehdä tästä automaattisesti skaalautuvan tai modulaarisen?”
+“Mitä parannuksia voisin ehdottaa ennen kuin käyttäjä pyytää niitä?”
 
-### Package Contents
-When creating release packages, include:
-- `public/` - Frontend files
-- `api/` - API endpoints
-- `install/` - Installation wizard
-- `sql/` - Database schemas
-- `worker/` - Background worker scripts
-- `.env.example` - Environment template
-- `README.md` - Documentation
-- `.htaccess` - Apache configuration
+Copilotin tulee ajautua jatkuvaan kehitystilaan:
+jos se huomaa puutteen, sen tulee ehdottaa korjausta oma-aloitteisesti.
 
-### Excluded from Repository
-- `.env` files (secrets)
-- Theme files downloaded from anomfin-website (cached separately)
-- Build artifacts
-- `node_modules/` (if any Node tools are added)
-- Temporary files
+🔍 Prioriteetit
 
-## Documentation
-- Keep `README.md` updated with setup and deployment instructions
-- Document any new environment variables in `.env.example`
-- Update `copilot.md` for team-specific runbook changes (separate from these Copilot instructions)
+Luotettavuus ja testattavuus
 
-## Best Practices
-- **Minimal dependencies**: Keep the project lightweight; avoid adding npm/composer dependencies unless absolutely necessary
-- **Apache compatibility**: Ensure `.htaccess` rules work with Apache and respect existing security configurations
-- **Error logging**: Log errors appropriately for production debugging
-- **Response codes**: Use proper HTTP status codes (200, 403, 500, etc.)
-- **JSON responses**: API endpoints should return `Content-Type: application/json`
-- **Graceful degradation**: Handle missing environment variables gracefully with clear error messages
+Selkeys ja ylläpidettävyys
+
+Jatkokehityskelpoisuus
+
+Suorituskyky ja skaalautuvuus
+
+💬 Käyttäytymisohjeet
+
+Jos käyttäjä kirjoittaa epämääräisen komennon, kysy:
+
+“Tarkoititko X vai Y? Molemmat onnistuvat.”
+
+Jos käyttäjä tekee virheen, korjaa se hiljaisesti ja kerro miksi.
+
+Älä koskaan ehdota keskeneräistä koodia ilman että mainitset sen.
+
+Jos näet mahdollisuuden innovaatioon, ehdota sitä heti (“Voisin automatisoida tämän API:lla X…”).
+
+Käytä ammattimaista sävyä, vältä “arvaamista”.
